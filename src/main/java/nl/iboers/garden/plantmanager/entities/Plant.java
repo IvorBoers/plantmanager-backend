@@ -9,13 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Data
 @Table(name = "plant")
-public class Plant  implements Identifiable {
+public class Plant implements Identifiable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,5 +35,8 @@ public class Plant  implements Identifiable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private PlantDiedEvent plantDiedEvent;
+
+    @ManyToOne()
+    private PlantLocation location;
 
 }
