@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
@@ -36,6 +37,10 @@ public class PlantSpecies implements Identifiable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
+
+
+    @ManyToOne()
+    private PlantSpeciesType type;
 
     @Lob()
     private byte[] image;
