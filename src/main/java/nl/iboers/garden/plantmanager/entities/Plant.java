@@ -1,6 +1,7 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,10 +9,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Entity
 @Data
@@ -36,7 +42,8 @@ public class Plant implements Identifiable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private PlantDiedEvent plantDiedEvent;
 
-    @ManyToOne()
-    private PlantLocation location;
+    @SortNatural
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private SortedSet<RelocationEvent> relocationEvents = new TreeSet<>();
 
 }

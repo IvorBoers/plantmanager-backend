@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
  */
 @Data
 @MappedSuperclass
-public class AbstractEvent implements Identifiable {
+public class AbstractEvent implements Identifiable, Comparable<AbstractEvent> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,4 +26,13 @@ public class AbstractEvent implements Identifiable {
 
     @Column(name = "description")
     private String description;
+
+    @Override
+    public int compareTo(AbstractEvent o) {
+        return this.date.compareTo(o.date);
+    }
+
+    public String getTypeName() {
+        return this.getClass().getSimpleName();
+    }
 }

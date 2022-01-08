@@ -80,8 +80,8 @@ public abstract class AbstractCrudController<T extends Identifiable, R extends J
         return new ResponseEntity<>(new PostResponse(savedItem.getId()), HttpStatus.OK);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<PostResponse> delete(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PostResponse> delete(@PathVariable Long id) {
         return entityRepository.findById(id)
                 .map(this::getDeleteResponse)
                 .orElse(new ResponseEntity<>(new PostResponse("No entity found with ID " + id), HttpStatus.NOT_FOUND));

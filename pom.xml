@@ -8,14 +8,18 @@
 		<version>2.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>nl.iboers.garden</groupId>
 	<artifactId>plantmanager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>plantmanager-api</name>
 	<description>Plantmanager for my garden</description>
+
 	<properties>
+		<exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
 		<java.version>11</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,4 +82,55 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>docker</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>docker-build</id>
+								<phase>package</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>docker</executable>
+									<workingDirectory>${project.basedir}</workingDirectory>
+									<arguments>
+										<argument>build</argument>
+										<argument>--pull</argument>
+										<argument>-t</argument>
+										<argument>192.168.5.11:5000/${project.artifactId}:${project.version}</argument>
+										<argument>.</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<!-- Push the image to a docker repo. -->
+							<execution>
+								<id>docker-push</id>
+								<phase>install</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>docker</executable>
+									<workingDirectory>${project.basedir}</workingDirectory>
+									<arguments>
+										<argument>push</argument>
+										<argument>your-docker-registry/${project.artifactId}:${project.version}</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<modules/>
+		</profile>
+	</profiles>
 </project>
