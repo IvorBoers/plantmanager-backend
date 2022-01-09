@@ -4,7 +4,10 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author Ivor
@@ -19,4 +22,12 @@ public class BuyEvent extends AbstractEvent {
 
     @Column(name = "store")
     private String store;
+
+    @Transient()
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @Column(name = "image_id")
+    private Long imageId;
 }

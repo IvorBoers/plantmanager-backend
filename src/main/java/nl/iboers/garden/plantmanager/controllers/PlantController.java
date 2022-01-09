@@ -29,28 +29,4 @@ public class PlantController extends AbstractCrudController<Plant, PlantReposito
         super(entityRepository);
     }
 
-    @Override
-    protected void setEntityImage(Plant entity, String fieldName, byte[] bytes) {
-        // no image field
-    }
-
-    @Transactional
-    @PostMapping(value = "/upload/plantdiedevent/{id}")
-    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-        LOG.debug("Uploaded File {}", file.getName());
-        return getImageAsByteArray(file)
-                .map(bytes -> {
-                    var plant = entityRepository.getById(id);
-                    PlantDiedEvent plantDiedEvent = plant.getPlantDiedEvent();
-                    if (plantDiedEvent != null) {
-                        plantDiedEvent.setImage(bytes);
-                        entityRepository.save(plant);
-                        return new ResponseEntity<>("OK", HttpStatus.OK);
-                    } else {
-                        return new ResponseEntity<>("Failure", HttpStatus.NOT_FOUND);
-                    }
-                })
-                .orElse(new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST));
-
-    }
 }

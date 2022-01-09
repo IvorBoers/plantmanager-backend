@@ -29,13 +29,6 @@ public class PlantSpeciesController extends AbstractCrudController<PlantSpecies,
         return super.getAll(Sort.by("name"));
     }
 
-    @Override
-    protected void setEntityImage(PlantSpecies plantSpecies, String fieldName, byte[] bytes) {
-        if ("image".equals(fieldName)) {
-            plantSpecies.setImage(bytes);
-        }
-    }
-
     @GetMapping("/filtered")
     public List<PlantSpecies> getAllByParentId(@RequestParam("parentId") Long parentId) {
         if (parentId != null && !entityRepository.existsById(parentId)) {

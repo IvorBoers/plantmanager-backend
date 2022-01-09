@@ -1,6 +1,7 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -8,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
@@ -38,12 +41,16 @@ public class PlantSpecies implements Identifiable {
     @Column(name = "name", nullable = false)
     private String name;
 
-
     @ManyToOne()
     private PlantSpeciesType type;
 
-    @Lob()
-    private byte[] image;
+    @Transient()
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @Column(name = "image_id")
+    private Long imageId;
 
     @Min(value = 0)
     @Column(name = "maximum_height")
@@ -62,11 +69,11 @@ public class PlantSpecies implements Identifiable {
     private String description;
 
     @Transient
-    @JsonIgnoreProperties(value = { "parents", "children" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "parent", "children" }, allowSetters = true)
     private Set<PlantSpecies> children = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "parents", "children" }, allowSetters = true)
     @Transient
+    @JsonIgnoreProperties(value = { "parent", "children" }, allowSetters = true)
     private PlantSpecies parent;
 
     @Column(name = "parent_id")

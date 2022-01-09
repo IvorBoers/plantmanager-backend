@@ -17,11 +17,4 @@ public class SeedPackageController extends AbstractCrudController<SeedPackage, S
         super(entityRepository);
     }
 
-
-    @Override
-    protected void setEntityImage(SeedPackage entity, String fieldName, byte[] bytes) {
-        if ("image".equals(fieldName)) {
-            entity.setImage(bytes);
-        }
-    }
 }

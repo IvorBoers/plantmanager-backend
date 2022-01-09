@@ -27,10 +27,6 @@ public class PlantSpeciesTypeController extends AbstractCrudController<PlantSpec
         return super.getAll(Sort.by("name"));
     }
 
-    @Override
-    protected void setEntityImage(PlantSpeciesType entity, String fieldName, byte[] bytes) {
-        // no image in entity
-    }
 
 
 }

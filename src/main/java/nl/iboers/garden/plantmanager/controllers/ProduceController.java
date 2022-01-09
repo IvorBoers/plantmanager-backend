@@ -26,13 +26,6 @@ public class ProduceController extends AbstractCrudController<ProducePickEvent, 
         this.plantRepository = plantRepository;
     }
 
-    @Override
-    protected void setEntityImage(ProducePickEvent entity, String fieldName, byte[] bytes) {
-        if ("image".equals(fieldName)) {
-            entity.setImage(bytes);
-        }
-    }
-
     @GetMapping("/for-plant/{plantId}")
     public List<ProducePickEvent> getAllForPlant(@PathVariable Long plantId) {
         return plantRepository.findById(plantId)

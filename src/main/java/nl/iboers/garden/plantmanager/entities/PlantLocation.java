@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -34,6 +36,11 @@ public class PlantLocation implements Identifiable {
     @Column(name = "color", nullable = false)
     private String color = "#ffffff";
 
-    @Lob()
-    private byte[] image;
+    @Transient()
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @Column(name = "image_id")
+    private Long imageId;
 }

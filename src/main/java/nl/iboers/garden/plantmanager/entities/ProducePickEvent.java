@@ -9,9 +9,11 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -28,6 +30,11 @@ public class ProducePickEvent extends AbstractEvent {
     @Column
     private Integer count;
 
-    @Lob()
-    private byte[] image;
+    @Transient()
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @Column(name = "image_id")
+    private Long imageId;
 }

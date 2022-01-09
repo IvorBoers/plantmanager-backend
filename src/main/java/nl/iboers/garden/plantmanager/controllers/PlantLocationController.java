@@ -17,10 +17,5 @@ public class PlantLocationController extends AbstractCrudController<PlantLocatio
         super(entityRepository);
     }
 
-    @Override
-    protected void setEntityImage(PlantLocation entity, String fieldName, byte[] bytes) {
-        if ("image".equals(fieldName)) {
-            entity.setImage(bytes);
-        }
-    }
+
 }

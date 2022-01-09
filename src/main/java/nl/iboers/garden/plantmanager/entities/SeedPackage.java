@@ -10,11 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -48,6 +50,11 @@ public class SeedPackage implements Identifiable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SeedStartEvent> seedStartEvents;
 
-    @Lob()
-    private byte[] image;
+    @Transient()
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @Column(name = "image_id")
+    private Long imageId;
 }
