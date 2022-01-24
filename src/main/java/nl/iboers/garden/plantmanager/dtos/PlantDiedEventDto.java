@@ -13,6 +13,11 @@ public class PlantDiedEventDto extends AbstractEventDto<PlantDiedEvent> {
     private Long plantId;
     private Long imageId;
 
+    public PlantDiedEventDto() {}
+    public PlantDiedEventDto(PlantDiedEvent entity) {
+        from(entity);
+    }
+
     @Override
     public void from(PlantDiedEvent entity) {
         super.from(entity);

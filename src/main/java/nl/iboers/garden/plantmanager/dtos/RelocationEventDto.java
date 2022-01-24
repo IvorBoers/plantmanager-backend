@@ -13,6 +13,12 @@ public class RelocationEventDto extends AbstractEventDto<RelocationEvent> {
     private long plantId;
     private long locationId;
 
+    public RelocationEventDto() {}
+
+    public RelocationEventDto(RelocationEvent entity) {
+        from(entity);
+    }
+
     @Override
     public void from(RelocationEvent entity) {
         super.from(entity);

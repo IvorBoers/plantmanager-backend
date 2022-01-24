@@ -35,16 +35,12 @@ public class PlantDto implements Dto<Plant> {
         buyEvent = getBuyEventDto(entity);
         diedEvent = getDiedEventDto(entity);
         seedStartEvent = getSeedStartEventDto(entity);
-        producePickEvents = entity.getProducePickEvents().stream().map(item -> {
-            ProducePickEventDto dto = new ProducePickEventDto();
-            dto.from(item);
-            return dto;
-        }).collect(Collectors.toList());
-        relocationEvents = entity.getRelocationEvents().stream().map(item -> {
-            RelocationEventDto dto = new RelocationEventDto();
-            dto.from(item);
-            return dto;
-        }).collect(Collectors.toList());
+        producePickEvents = entity.getProducePickEvents().stream()
+                .map(ProducePickEventDto::new)
+                .collect(Collectors.toList());
+        relocationEvents = entity.getRelocationEvents().stream()
+                .map(RelocationEventDto::new)
+                .collect(Collectors.toList());
         currentLocation = getCurrentLocation(entity.getRelocationEvents());
     }
 
@@ -61,36 +57,28 @@ public class PlantDto implements Dto<Plant> {
         if (e == null) {
             return null;
         }
-        PlantSpeciesDto dto = new PlantSpeciesDto();
-        dto.from(e);
-        return dto;
+        return new PlantSpeciesDto(e);
     }
 
     private BuyEventDto getBuyEventDto(Plant entity) {
         if (entity.getBuyEvent() == null) {
             return null;
         }
-        BuyEventDto result = new BuyEventDto();
-        result.from(entity.getBuyEvent());
-        return result;
+        return new BuyEventDto(entity.getBuyEvent());
     }
 
     private PlantDiedEventDto getDiedEventDto(Plant entity) {
         if (entity.getPlantDiedEvent() == null) {
             return null;
         }
-        PlantDiedEventDto result = new PlantDiedEventDto();
-        result.from(entity.getPlantDiedEvent());
-        return result;
+        return new PlantDiedEventDto(entity.getPlantDiedEvent());
     }
 
     private SeedStartEventDto getSeedStartEventDto(Plant entity) {
         if (entity.getSeedStartEvent() == null) {
             return null;
         }
-        SeedStartEventDto result = new SeedStartEventDto();
-        result.from(entity.getSeedStartEvent());
-        return result;
+        return new SeedStartEventDto(entity.getSeedStartEvent());
     }
 
     @Override

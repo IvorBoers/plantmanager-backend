@@ -16,6 +16,11 @@ public class ProducePickEventDto extends AbstractEventDto<ProducePickEvent> {
     private Integer count;
     private Long imageId;
 
+    public ProducePickEventDto() {}
+    public ProducePickEventDto(ProducePickEvent entity) {
+        from(entity);
+    }
+
     @Override
     public void from(ProducePickEvent entity) {
         super.from(entity);

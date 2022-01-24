@@ -14,6 +14,12 @@ public class SeedStartEventDto extends AbstractEventDto<SeedStartEvent> {
 
     private long seedPackageId;
 
+    public SeedStartEventDto() {}
+
+    public SeedStartEventDto(SeedStartEvent entity) {
+        from(entity);
+    }
+
     @Override
     public void from(SeedStartEvent entity) {
         super.from(entity);

@@ -21,6 +21,13 @@ public class PlantSpeciesDto implements Dto<PlantSpecies> {
     private String description;
     private Long parentId;
 
+    public PlantSpeciesDto() {
+    }
+
+    public PlantSpeciesDto(PlantSpecies entity) {
+        from(entity);
+    }
+
     @Override
     public void from(PlantSpecies entity) {
         id = entity.getId();

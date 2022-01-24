@@ -14,6 +14,12 @@ public class BuyEventDto extends AbstractEventDto<BuyEvent> {
     private String store;
     private long imageId;
 
+    public BuyEventDto() {}
+
+    public BuyEventDto(BuyEvent entity) {
+        from(entity);
+    }
+
     @Override
     public void from(BuyEvent entity) {
         super.from(entity);
