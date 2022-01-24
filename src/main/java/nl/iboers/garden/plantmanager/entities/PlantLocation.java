@@ -1,6 +1,8 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import lombok.Data;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,4 +45,23 @@ public class PlantLocation implements Identifiable {
 
     @Column(name = "image_id")
     private Long imageId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        PlantLocation that = (PlantLocation) o;
+
+        return new EqualsBuilder().append(id, that.id).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).toHashCode();
+    }
 }

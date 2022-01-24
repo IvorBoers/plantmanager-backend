@@ -1,16 +1,14 @@
 package nl.iboers.garden.plantmanager.entities;
 
-/**
- * @author Ivor
- */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -21,7 +19,9 @@ import javax.persistence.Transient;
 @Table(name = "produce_pick_event")
 public class ProducePickEvent extends AbstractEvent {
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "plant_id", nullable = false)
     private Plant plant;
 
     @Column
@@ -30,11 +30,8 @@ public class ProducePickEvent extends AbstractEvent {
     @Column
     private Integer count;
 
-    @Transient()
     @ManyToOne()
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @Column(name = "image_id")
-    private Long imageId;
 }

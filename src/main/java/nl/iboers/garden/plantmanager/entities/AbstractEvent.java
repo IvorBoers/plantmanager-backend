@@ -2,6 +2,9 @@ package nl.iboers.garden.plantmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -13,7 +16,6 @@ import java.time.OffsetDateTime;
 /**
  * @author Ivor
  */
-@Data
 @MappedSuperclass
 public class AbstractEvent implements Identifiable, Comparable<AbstractEvent> {
     @Id
@@ -28,11 +30,56 @@ public class AbstractEvent implements Identifiable, Comparable<AbstractEvent> {
     private String description;
 
     @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public OffsetDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(OffsetDateTime date) {
+        this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
     public int compareTo(AbstractEvent o) {
-        return this.date.compareTo(o.date);
+        return new CompareToBuilder().append(date, o.date).build();
     }
 
     public String getTypeName() {
         return this.getClass().getSimpleName();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        AbstractEvent that = (AbstractEvent) o;
+
+        return new EqualsBuilder().append(id, that.id).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).toHashCode();
     }
 }

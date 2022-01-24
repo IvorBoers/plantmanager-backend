@@ -2,6 +2,8 @@ package nl.iboers.garden.plantmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +49,7 @@ public class SeedPackage implements Identifiable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private BuyEvent buyEvent;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "seedPackage")
     private List<SeedStartEvent> seedStartEvents;
 
     @Transient()
@@ -57,4 +59,24 @@ public class SeedPackage implements Identifiable {
 
     @Column(name = "image_id")
     private Long imageId;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        SeedPackage that = (SeedPackage) o;
+
+        return new EqualsBuilder().append(id, that.id).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).toHashCode();
+    }
 }

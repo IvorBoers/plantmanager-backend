@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -46,6 +47,7 @@ public abstract class AbstractCrudController<T extends Identifiable, R extends J
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+
     @PutMapping()
     public ResponseEntity<PostResponse> save(@RequestBody T item) {
         LOG.debug("Updating an existing item ID {}", item.getId());
@@ -73,6 +75,7 @@ public abstract class AbstractCrudController<T extends Identifiable, R extends J
         return new ResponseEntity<>(new PostResponse(savedItem.getId()), HttpStatus.OK);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<PostResponse> delete(@PathVariable Long id) {
         return entityRepository.findById(id)
