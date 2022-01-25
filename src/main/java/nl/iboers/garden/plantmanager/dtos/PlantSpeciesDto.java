@@ -2,9 +2,6 @@ package nl.iboers.garden.plantmanager.dtos;
 
 import lombok.Data;
 import nl.iboers.garden.plantmanager.entities.PlantSpecies;
-import nl.iboers.garden.plantmanager.entities.PlantSpeciesType;
-
-import java.util.Optional;
 
 /**
  * @author Ivor Boers
@@ -13,7 +10,7 @@ import java.util.Optional;
 public class PlantSpeciesDto implements Dto<PlantSpecies> {
     private Long id;
     private String name;
-    private Long typeId;
+    private PlantSpeciesTypeDto type;
     private Long imageId;
     private Integer maximumHeight;
     private Integer spacing;
@@ -32,7 +29,7 @@ public class PlantSpeciesDto implements Dto<PlantSpecies> {
     public void from(PlantSpecies entity) {
         id = entity.getId();
         name = entity.getName();
-        typeId = Optional.ofNullable(entity.getType()).map(PlantSpeciesType::getId).orElse(null);
+        type = entity.getTypeAsOptional().map(PlantSpeciesTypeDto::new).orElse(null);
         imageId = entity.getImageId();
         maximumHeight = entity.getMaximumHeight();
         spacing = entity.getSpacing();

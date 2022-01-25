@@ -1,7 +1,6 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import lombok.Data;
-import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.SortNatural;
@@ -16,12 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 @Entity
 @Data
-@ToString
 @Table(name = "plant")
 public class Plant implements Identifiable {
 
@@ -51,6 +50,19 @@ public class Plant implements Identifiable {
     @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private SortedSet<ProducePickEvent> producePickEvents = new TreeSet<>();
 
+
+    public Optional<BuyEvent> getBuyEventAsOptional() {
+        return Optional.ofNullable(buyEvent);
+    }
+
+    public Optional<PlantDiedEvent> getPlantDiedEventAsOptional() {
+        return Optional.ofNullable(plantDiedEvent);
+    }
+
+    public Optional<SeedStartEvent> getSeedStartEventAsOptional() {
+        return Optional.ofNullable(seedStartEvent);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -68,5 +80,9 @@ public class Plant implements Identifiable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(id).toHashCode();
+    }
+
+    public String toString() {
+        return "Plant with id=" + id;
     }
 }

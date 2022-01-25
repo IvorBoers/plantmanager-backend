@@ -1,7 +1,6 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,15 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -80,6 +78,11 @@ public class PlantSpecies implements Identifiable {
 
     @Column(name = "parent_id")
     private Long parentId;
+
+
+    public Optional<PlantSpeciesType> getTypeAsOptional() {
+        return Optional.ofNullable(type);
+    }
 
     @Override
     public boolean equals(Object o) {

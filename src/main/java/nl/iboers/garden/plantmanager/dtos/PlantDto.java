@@ -32,9 +32,9 @@ public class PlantDto implements Dto<Plant> {
     public void from(Plant entity) {
         id = entity.getId();
         species = toPlantSpeciesDto(entity.getPlantSpecies());
-        buyEvent = getBuyEventDto(entity);
-        diedEvent = getDiedEventDto(entity);
-        seedStartEvent = getSeedStartEventDto(entity);
+        buyEvent = entity.getBuyEventAsOptional().map(BuyEventDto::new).orElse(null);
+        diedEvent = entity.getPlantDiedEventAsOptional().map(PlantDiedEventDto::new).orElse(null);
+        seedStartEvent = entity.getSeedStartEventAsOptional().map(SeedStartEventDto::new).orElse(null);
         producePickEvents = entity.getProducePickEvents().stream()
                 .map(ProducePickEventDto::new)
                 .collect(Collectors.toList());
@@ -58,27 +58,6 @@ public class PlantDto implements Dto<Plant> {
             return null;
         }
         return new PlantSpeciesDto(e);
-    }
-
-    private BuyEventDto getBuyEventDto(Plant entity) {
-        if (entity.getBuyEvent() == null) {
-            return null;
-        }
-        return new BuyEventDto(entity.getBuyEvent());
-    }
-
-    private PlantDiedEventDto getDiedEventDto(Plant entity) {
-        if (entity.getPlantDiedEvent() == null) {
-            return null;
-        }
-        return new PlantDiedEventDto(entity.getPlantDiedEvent());
-    }
-
-    private SeedStartEventDto getSeedStartEventDto(Plant entity) {
-        if (entity.getSeedStartEvent() == null) {
-            return null;
-        }
-        return new SeedStartEventDto(entity.getSeedStartEvent());
     }
 
     @Override
