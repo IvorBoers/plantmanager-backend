@@ -1,6 +1,8 @@
 package nl.iboers.garden.plantmanager.controllers;
 
 import nl.iboers.garden.plantmanager.PlantManagerConfiguration;
+import nl.iboers.garden.plantmanager.dtos.PlantSpeciesDto;
+import nl.iboers.garden.plantmanager.dtos.converters.PlantSpeciesConverter;
 import nl.iboers.garden.plantmanager.entities.PlantSpecies;
 import nl.iboers.garden.plantmanager.repositories.PlantSpeciesRepository;
 import org.springframework.data.domain.Sort;
@@ -11,30 +13,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Ivor
  */
 @RestController
 @RequestMapping(PlantManagerConfiguration.BASE_URL + "plantspecies")
-public class PlantSpeciesController extends AbstractCrudController<PlantSpecies, PlantSpeciesRepository> {
+public class PlantSpeciesController extends AbstractDtoCrudController<PlantSpecies, PlantSpeciesDto, PlantSpeciesRepository> {
 
-    public PlantSpeciesController(PlantSpeciesRepository entityRepository) {
-        super(entityRepository);
+    public PlantSpeciesController(PlantSpeciesRepository entityRepository, PlantSpeciesConverter plantSpeciesConverter) {
+        super(entityRepository, plantSpeciesConverter);
     }
 
     @GetMapping()
     @Override
-    public List<PlantSpecies> getAll() {
+    public List<PlantSpeciesDto> getAll() {
         return super.getAll(Sort.by("name"));
     }
 
     @GetMapping("/filtered")
-    public List<PlantSpecies> getAllByParentId(@RequestParam("parentId") Long parentId) {
-        if (parentId != null && !entityRepository.existsById(parentId)) {
+    public List<PlantSpeciesDto> getAllByParentId(@RequestParam("parentId") Long parentId) {
+        if (parentId != null && !getEntityRepository().existsById(parentId)) {
             return Collections.emptyList();
         }
-        return entityRepository.getPlantSpeciesByParentIdOrderByName(parentId);
+        return getEntityRepository().getPlantSpeciesByParentIdOrderByName(parentId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
 }

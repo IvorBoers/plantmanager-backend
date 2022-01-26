@@ -1,6 +1,5 @@
 package nl.iboers.garden.plantmanager.entities;
 
-import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -16,7 +15,6 @@ import javax.validation.constraints.NotNull;
  * @author Ivor Boers
  */
 @Entity
-@Data
 @Table(name = "plant_species_type")
 public class PlantSpeciesType implements Identifiable {
 
@@ -29,6 +27,23 @@ public class PlantSpeciesType implements Identifiable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {

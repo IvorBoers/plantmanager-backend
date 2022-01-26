@@ -1,11 +1,19 @@
 package nl.iboers.garden.plantmanager.dtos.converters;
 
+import nl.iboers.garden.plantmanager.dtos.GrowPeriodDto;
 import nl.iboers.garden.plantmanager.dtos.PlantSpeciesDto;
 import nl.iboers.garden.plantmanager.dtos.PlantSpeciesTypeDto;
+import nl.iboers.garden.plantmanager.dtos.WeekOfMonthDto;
+import nl.iboers.garden.plantmanager.entities.GrowPeriod;
+import nl.iboers.garden.plantmanager.entities.GrowPhaseEnum;
 import nl.iboers.garden.plantmanager.entities.PlantSpecies;
 import nl.iboers.garden.plantmanager.entities.PlantSpeciesType;
+import nl.iboers.garden.plantmanager.entities.WeekOfMonth;
 import nl.iboers.garden.plantmanager.repositories.PlantSpeciesTypeRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * @author Ivor Boers
@@ -29,9 +37,33 @@ public class PlantSpeciesConverter implements DtoConverter<PlantSpecies, PlantSp
         entity.setName(dto.getName());
         entity.setParentId(dto.getParentId());
         entity.setMaximumHeight(dto.getMaximumHeight());
-        entity.setSpacing(dto.getSpacing());
         entity.setSungrade(dto.getSungrade());
         entity.setType(getType(dto.getType()));
+        entity.setGrowPeriods(getGrowPeriods(entity, dto.getGrowPeriods()));
+        return entity;
+    }
+
+    private SortedSet<GrowPeriod> getGrowPeriods(PlantSpecies entity, SortedSet<GrowPeriodDto> growPeriods) {
+        SortedSet<GrowPeriod> result = new TreeSet<>();
+        for (GrowPeriodDto growPeriod : growPeriods) {
+            GrowPeriod period = new GrowPeriod();
+            period.setId(growPeriod.getId());
+            period.setDescription(growPeriod.getDescription());
+            period.setGrowPhase(GrowPhaseEnum.valueOf(growPeriod.getPhase()));
+            period.setStart(getWeekOfMonth(growPeriod.getStart()));
+            period.setEnd(getWeekOfMonth(growPeriod.getEnd()));
+            period.setPlantSpecies(entity);
+            result.add(period);
+        }
+
+        return result;
+    }
+
+    private WeekOfMonth getWeekOfMonth(WeekOfMonthDto dto) {
+        WeekOfMonth entity = new WeekOfMonth();
+        entity.setId(dto.getId());
+        entity.setMonth(dto.getMonth());
+        entity.setWeek(dto.getWeek());
         return entity;
     }
 

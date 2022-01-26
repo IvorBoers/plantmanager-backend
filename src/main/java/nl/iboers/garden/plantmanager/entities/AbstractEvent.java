@@ -1,7 +1,6 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -26,7 +25,7 @@ public class AbstractEvent implements Identifiable, Comparable<AbstractEvent> {
     @Column(name = "event_date", nullable = false)
     private OffsetDateTime date;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 2500)
     private String description;
 
     @Override

@@ -34,6 +34,14 @@ public abstract class AbstractDtoCrudController<E extends Identifiable, D extend
         this.dtoConverter = dtoConverter;
     }
 
+    public R getEntityRepository() {
+        return entityRepository;
+    }
+
+    public DtoConverter<E, D> getDtoConverter() {
+        return dtoConverter;
+    }
+
     @GetMapping()
     public List<D> getAll() {
         return entityRepository.findAll().stream()

@@ -1,6 +1,5 @@
 package nl.iboers.garden.plantmanager.entities;
 
-import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -19,7 +18,6 @@ import javax.validation.constraints.NotNull;
  * @author Ivor Boers
  */
 @Entity
-@Data
 @Table(name = "plant_location")
 public class PlantLocation implements Identifiable {
 
@@ -31,7 +29,7 @@ public class PlantLocation implements Identifiable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 2500)
     private String description;
 
     @NotNull
@@ -45,6 +43,56 @@ public class PlantLocation implements Identifiable {
 
     @Column(name = "image_id")
     private Long imageId;
+
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -3,6 +3,10 @@ package nl.iboers.garden.plantmanager.dtos;
 import lombok.Data;
 import nl.iboers.garden.plantmanager.entities.PlantSpecies;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 /**
  * @author Ivor Boers
  */
@@ -13,10 +17,10 @@ public class PlantSpeciesDto implements Dto<PlantSpecies> {
     private PlantSpeciesTypeDto type;
     private Long imageId;
     private Integer maximumHeight;
-    private Integer spacing;
     private Integer sungrade;
     private String description;
     private Long parentId;
+    private SortedSet<GrowPeriodDto> growPeriods = new TreeSet<>();
 
     public PlantSpeciesDto() {
     }
@@ -32,10 +36,12 @@ public class PlantSpeciesDto implements Dto<PlantSpecies> {
         type = entity.getTypeAsOptional().map(PlantSpeciesTypeDto::new).orElse(null);
         imageId = entity.getImageId();
         maximumHeight = entity.getMaximumHeight();
-        spacing = entity.getSpacing();
         sungrade = entity.getSungrade();
         description = entity.getDescription();
         parentId = entity.getParentId();
+        growPeriods = entity.getGrowPeriods().stream()
+                .map(GrowPeriodDto::new)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     @Override

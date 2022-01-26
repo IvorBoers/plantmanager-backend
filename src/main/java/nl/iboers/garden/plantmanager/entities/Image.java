@@ -1,6 +1,5 @@
 package nl.iboers.garden.plantmanager.entities;
 
-import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -15,7 +14,6 @@ import javax.persistence.Table;
  * @author Ivor Boers
  */
 @Entity
-@Data
 @Table(name = "image")
 public class Image implements Identifiable {
     private static final long serialVersionUID = 1L;
@@ -32,6 +30,22 @@ public class Image implements Identifiable {
         this.bytes = bytes;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+    }
 
     @Override
     public boolean equals(Object o) {

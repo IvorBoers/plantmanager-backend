@@ -1,7 +1,6 @@
 package nl.iboers.garden.plantmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -25,7 +23,6 @@ import java.util.List;
 /**
  * @author Ivor
  */
-@Data
 @Entity
 @Table(name = "seed_package")
 public class SeedPackage implements Identifiable {
@@ -33,7 +30,7 @@ public class SeedPackage implements Identifiable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 2500)
     private String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -60,6 +57,78 @@ public class SeedPackage implements Identifiable {
     @Column(name = "image_id")
     private Long imageId;
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public OffsetDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(OffsetDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Long getPercentFull() {
+        return percentFull;
+    }
+
+    public void setPercentFull(Long percentFull) {
+        this.percentFull = percentFull;
+    }
+
+    public PlantSpecies getPlantSpecies() {
+        return plantSpecies;
+    }
+
+    public void setPlantSpecies(PlantSpecies plantSpecies) {
+        this.plantSpecies = plantSpecies;
+    }
+
+    public BuyEvent getBuyEvent() {
+        return buyEvent;
+    }
+
+    public void setBuyEvent(BuyEvent buyEvent) {
+        this.buyEvent = buyEvent;
+    }
+
+    public List<SeedStartEvent> getSeedStartEvents() {
+        return seedStartEvents;
+    }
+
+    public void setSeedStartEvents(List<SeedStartEvent> seedStartEvents) {
+        this.seedStartEvents = seedStartEvents;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
 
     @Override
     public boolean equals(Object o) {

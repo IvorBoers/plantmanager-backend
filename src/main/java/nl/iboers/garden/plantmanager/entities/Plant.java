@@ -1,6 +1,5 @@
 package nl.iboers.garden.plantmanager.entities;
 
-import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.SortNatural;
@@ -20,7 +19,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 @Entity
-@Data
 @Table(name = "plant")
 public class Plant implements Identifiable {
 
@@ -61,6 +59,63 @@ public class Plant implements Identifiable {
 
     public Optional<SeedStartEvent> getSeedStartEventAsOptional() {
         return Optional.ofNullable(seedStartEvent);
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public PlantSpecies getPlantSpecies() {
+        return plantSpecies;
+    }
+
+    public void setPlantSpecies(PlantSpecies plantSpecies) {
+        this.plantSpecies = plantSpecies;
+    }
+
+    public BuyEvent getBuyEvent() {
+        return buyEvent;
+    }
+
+    public void setBuyEvent(BuyEvent buyEvent) {
+        this.buyEvent = buyEvent;
+    }
+
+    public SeedStartEvent getSeedStartEvent() {
+        return seedStartEvent;
+    }
+
+    public void setSeedStartEvent(SeedStartEvent seedStartEvent) {
+        this.seedStartEvent = seedStartEvent;
+    }
+
+    public PlantDiedEvent getPlantDiedEvent() {
+        return plantDiedEvent;
+    }
+
+    public void setPlantDiedEvent(PlantDiedEvent plantDiedEvent) {
+        this.plantDiedEvent = plantDiedEvent;
+    }
+
+    public SortedSet<RelocationEvent> getRelocationEvents() {
+        return relocationEvents;
+    }
+
+    public void setRelocationEvents(SortedSet<RelocationEvent> relocationEvents) {
+        this.relocationEvents = relocationEvents;
+    }
+
+    public SortedSet<ProducePickEvent> getProducePickEvents() {
+        return producePickEvents;
+    }
+
+    public void setProducePickEvents(SortedSet<ProducePickEvent> producePickEvents) {
+        this.producePickEvents = producePickEvents;
     }
 
     @Override
