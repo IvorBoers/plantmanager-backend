@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Data
 public class GrowPeriodDto implements Dto<GrowPeriod>, Comparable<GrowPeriodDto> {
-
+    private static final int WEEKS = 12 * 4;
     private Long id;
     private String phase;
     private WeekOfMonthDto start;
@@ -37,6 +37,42 @@ public class GrowPeriodDto implements Dto<GrowPeriod>, Comparable<GrowPeriodDto>
     public Long getId() {
         return id;
     }
+
+
+    public boolean[] getCalendarRow() {
+        boolean[] monthsWithFourWeeks = new boolean[WEEKS];
+        int month = 0;
+        int week = 0;
+        for (int i = 0; i < WEEKS; i++) {
+            monthsWithFourWeeks[i] = monthsWithFourWeeks[i] || isInWeek(month, week);
+            week++;
+            if (week % 4 == 0) {
+                month++;
+                week = 0;
+            }
+        }
+        return monthsWithFourWeeks;
+    }
+
+    private boolean isInWeek(int month, int week) {
+        if (isOutsideMonthRange(month)) {
+            return false;
+        }
+        return !isInStartMonthButBeforeWeek(getStart(), month, week) && !isInEndMonthButAfterWeek(getEnd(), month, week);
+    }
+
+    private boolean isInEndMonthButAfterWeek(WeekOfMonthDto end, int month, int week) {
+        return month == end.getMonth() && week > end.getWeek();
+    }
+
+    private boolean isInStartMonthButBeforeWeek(WeekOfMonthDto start, int month, int week) {
+        return month == start.getMonth() && week < start.getWeek();
+    }
+
+    private boolean isOutsideMonthRange(int month) {
+        return month < getStart().getMonth() || month > getEnd().getMonth();
+    }
+
 
     @Override
     public int compareTo(GrowPeriodDto o) {
